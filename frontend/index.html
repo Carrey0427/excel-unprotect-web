@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>Excel 解鎖工具</title>
+    <style>
+        body {
+            font-family: "Microsoft JhengHei", sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f6f8fa;
+        }
+        .container {
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+            width: 350px;
+        }
+        button {
+            margin-top: 15px;
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            background-color: #006edc;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #005bb5;
+        }
+        #agree-box {
+            margin-top: 15px;
+            font-size: 13px;
+            padding: 10px;
+            background: #f0f0f0;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Excel 解鎖工具</h2>
+
+    <div class="label">選擇 Excel 檔案：</div>
+    <input type="file" id="fileInput" accept=".xlsx,.xlsm,.xls">
+
+    <div id="agree-box">
+        使用本服務即代表您保證：<br>
+        ✔ 您合法擁有該 Excel 的使用權。<br>
+        ✔ 本工具僅去除編輯保護，並不破解開機密碼。<br>
+        ✔ 您同意自行承擔因內容修改造成的所有風險。<br>
+        <input type="checkbox" id="agree"> 我已閱讀並同意
+    </div>
+
+    <button id="submitBtn">開始解鎖</button>
+</div>
+
+<script>
+// === 點擊開始 ===
+document.getElementById("submitBtn").addEventListener("click", async () => {
+    const fileInput = document.getElementById("fileInput");
+    const agree = document.getElementById("agree");
+
+    if (!fileInput.files.length) {
+        alert("請先選擇 Excel 檔案！");
+        return;
+    }
+    if (!agree.checked) {
+        alert("請先勾選『我已閱讀並同意』");
+        return;
+    }
+
+    // 取得原始檔名並加上 _unprotect
+    const originalName = fileInput.files[0].name;
+    const parts = originalName.split(".");
+    const ext = parts.pop(); 
+    const newName = parts.join(".") + "_unprotect." + ext;
+
+    // 建立 FormData 並呼叫 API
+    const formData = new FormData();
+    formData.append("file", fileInput.files[0]);
+
+    const res = await fetch("http://127.0.0.1:8000/unprotect", {
+        method: "POST",
+        body: formData
+    });
+
+    if (!res.ok) {
+        alert("解鎖失敗，請確認檔案是否受保護或重試！");
+        return;
+    }
+
+    // 取得 blob 並下載
+    const blob = await res.blob();
+    const a = document.createElement("a");
+    a.href = window.URL.createObjectURL(blob);
+    a.download = newName;  // 正確檔名
+    a.click();
+});
+</script>
+
+</body>
+</html>
