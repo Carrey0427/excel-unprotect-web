@@ -62,7 +62,6 @@
 </div>
 
 <script>
-// === 點擊開始 ===
 document.getElementById("submitBtn").addEventListener("click", async () => {
     const fileInput = document.getElementById("fileInput");
     const agree = document.getElementById("agree");
@@ -76,20 +75,26 @@ document.getElementById("submitBtn").addEventListener("click", async () => {
         return;
     }
 
-    // 取得原始檔名並加上 _unprotect
+    // 建立 _unprotect 檔名
     const originalName = fileInput.files[0].name;
-    const parts = originalName.split(".");
-    const ext = parts.pop(); 
-    const newName = parts.join(".") + "_unprotect." + ext;
+    const newName = originalName.replace(/\.(xlsx|xlsm|xls)$/i, "_unprotect.xlsx");
 
     // 建立 FormData 並呼叫 API
     const formData = new FormData();
     formData.append("file", fileInput.files[0]);
 
-    const res = await fetch("http://127.0.0.1:8000/unprotect", {
-        method: "POST",
-        body: formData
-    });
+    const apiUrl = window.location.origin + "/unprotect";
+
+    let res;
+    try {
+        res = await fetch(apiUrl, {
+            method: "POST",
+            body: formData
+        });
+    } catch (err) {
+        alert("無法連線至伺服器，請稍後再試！");
+        return;
+    }
 
     if (!res.ok) {
         alert("解鎖失敗，請確認檔案是否受保護或重試！");
@@ -98,10 +103,17 @@ document.getElementById("submitBtn").addEventListener("click", async () => {
 
     // 取得 blob 並下載
     const blob = await res.blob();
+    const downloadUrl = window.URL.createObjectURL(blob);
+
     const a = document.createElement("a");
-    a.href = window.URL.createObjectURL(blob);
-    a.download = newName;  // 正確檔名
+    a.href = downloadUrl;
+    a.download = newName;
+    document.body.appendChild(a);
     a.click();
+    a.remove();
+
+    // 釋放記憶體
+    URL.revokeObjectURL(downloadUrl);
 });
 </script>
 
