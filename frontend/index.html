@@ -16,61 +16,61 @@
 
         .container {
             background: #fff;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.15);
-            width: 90%;
-            max-width: 400px; /* 🔥 桌機最多 400px，手機也能 90% */
-            box-sizing: border-box;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.15);
+            width: 90vw;
+            max-width: 600px;   /* 💡 讓手機更大 */
+            min-height: 400px;
         }
 
         h2 {
-            text-align: center;
-            margin-top: 0;
-            font-size: 20px;
+            font-size: 34px; /* 💡 標題變大 */
+            margin-bottom: 25px;
         }
 
-        button {
-            margin-top: 15px;
-            width: 100%;
-            padding: 12px;
-            font-size: 16px;
-            background-color: #006edc;
-            color: #fff;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
+        .label {
+            font-size: 20px;
+            margin-bottom: 10px;
         }
-        button:hover {
-            background-color: #005bb5;
+
+        input[type="file"] {
+            font-size: 18px; /* 💡 選檔案按鈕變大 */
+            width: 100%;
+            margin-top: 10px;
         }
 
         #agree-box {
-            margin-top: 15px;
-            font-size: 14px;
-            padding: 12px;
+            margin-top: 25px;
+            font-size: 18px; /* 💡 文字變大 */
+            padding: 15px;
             background: #f0f0f0;
-            border-radius: 5px;
+            border-radius: 8px;
+            line-height: 1.7;
         }
 
-        /* 🔥 手機字體微調 */
-        @media (max-width: 480px) {
-            body {
-                padding: 10px;
-                height: auto;
-            }
-            .container {
-                margin-top: 30px;
-                padding: 20px;
-            }
-            h2 {
-                font-size: 18px;
-            }
-            #agree-box {
-                font-size: 13px;
-            }
+        #agree {
+            transform: scale(1.6);  /* 💡 勾選放大 */
+            margin-right: 10px;
+        }
+
+        button {
+            margin-top: 25px;
+            width: 100%;
+            padding: 18px 0;     /* 💡 高度變大 */
+            font-size: 22px;     /* 💡 字變大 */
+            background-color: #006edc;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #005bb5;
         }
     </style>
+
 
 </head>
 <body>
