@@ -1,7 +1,9 @@
 # backend/main.py
 
 from fastapi import FastAPI, UploadFile, File, HTTPException
-from fastapi.responses import StreamingResponse
+from fastapi.responses import StreamingResponse, FileResponse
+from fastapi.staticfiles import StaticFiles
+import os
 from .excel_unprotect import remove_protection
 
 app = FastAPI(
@@ -9,6 +11,9 @@ app = FastAPI(
     description="Remove sheet/workbook protection from Excel files",
     version="1.0.0"
 )
+
+# 靜態檔案服務 (for frontend)
+app.mount("/frontend", StaticFiles(directory="frontend"), name="frontend")
 
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -46,5 +51,6 @@ async def unprotect_excel(file: UploadFile = File(...)):
 
 
 @app.get("/")
-def home():
-    return {"status": "Excel Unprotect API running", "message": "Go to /docs to test the API."}
+def main_page():
+    index_path = os.path.join("frontend", "index.html")
+    return FileResponse(index_path)
