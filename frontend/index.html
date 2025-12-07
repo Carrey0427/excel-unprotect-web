@@ -10,19 +10,30 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
+            margin: 0;
             background-color: #f6f8fa;
         }
+
         .container {
             background: #fff;
             padding: 30px;
             border-radius: 10px;
             box-shadow: 0 3px 10px rgba(0,0,0,0.15);
-            width: 350px;
+            width: 90%;
+            max-width: 400px; /* 🔥 桌機最多 400px，手機也能 90% */
+            box-sizing: border-box;
         }
+
+        h2 {
+            text-align: center;
+            margin-top: 0;
+            font-size: 20px;
+        }
+
         button {
             margin-top: 15px;
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             font-size: 16px;
             background-color: #006edc;
             color: #fff;
@@ -33,14 +44,34 @@
         button:hover {
             background-color: #005bb5;
         }
+
         #agree-box {
             margin-top: 15px;
-            font-size: 13px;
-            padding: 10px;
+            font-size: 14px;
+            padding: 12px;
             background: #f0f0f0;
             border-radius: 5px;
         }
+
+        /* 🔥 手機字體微調 */
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+                height: auto;
+            }
+            .container {
+                margin-top: 30px;
+                padding: 20px;
+            }
+            h2 {
+                font-size: 18px;
+            }
+            #agree-box {
+                font-size: 13px;
+            }
+        }
     </style>
+
 </head>
 <body>
 
